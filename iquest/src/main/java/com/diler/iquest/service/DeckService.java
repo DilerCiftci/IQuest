@@ -29,11 +29,19 @@ public class DeckService {
         return deckRepository.save(deck);
     }
 
-    // Get deck by user
+    // Get decks
     public List<Deck> getDecksByUser(String user) {
         if (user == null || user.isBlank()) {
             throw new IllegalArgumentException("User is required.");
         }
         return deckRepository.findByUser(user);
+    }
+
+    // Delete deck
+    public void deleteDeck(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("No decks to delete.");
+        }
+        deckRepository.deleteById(id);
     }
 }
