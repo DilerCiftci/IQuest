@@ -2,6 +2,7 @@ package com.diler.iquest.service;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.diler.iquest.model.User;
@@ -11,6 +12,8 @@ import com.diler.iquest.repository.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -28,7 +31,8 @@ public class UserService {
             throw new IllegalArgumentException("Role is required.");
         }
 
-        User user = new User(username, password, role);
+        String hashedPassword = passwordEncoder.encode(password);
+        User user = new User(username, hashedPassword, role);
         return userRepository.save(user);
     }
 
