@@ -20,7 +20,7 @@ public class CardService {
         this.deckRepository = deckRepository;
     }
 
-    // Add card to deck
+    // Add card
     public Card addCard(String question, String answer, Long deckId) {
         if (question == null || question.isBlank()) {
             throw new IllegalArgumentException("Card needs a question.");
@@ -39,11 +39,19 @@ public class CardService {
         return cardRepository.save(card);
     }
 
-    // Get cards by deck
+    // Get cards
     public List<Card> getCardsByDeck(Long deckId) {
         if (deckId == null) {
-            throw new IllegalArgumentException("Deck is required.");
+            throw new IllegalArgumentException("Deck is required to see cards.");
         }
         return cardRepository.findByDeckId(deckId);
+    }
+
+    // Delete card
+    public void deleteCard(Long id) {
+        if (id == null || id < 0) {
+            throw new IllegalArgumentException("Card is required");
+        }
+        cardRepository.deleteById(id);
     }
 }

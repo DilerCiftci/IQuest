@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.diler.iquest.model.Deck;
+import com.diler.iquest.model.User;
 
 public interface DeckRepository extends JpaRepository<Deck, Long> {
-    List<Deck> findByUser(String user);
+    List<Deck> findByUser(User user);
 }
