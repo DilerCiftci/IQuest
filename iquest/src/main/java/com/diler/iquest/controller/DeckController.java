@@ -41,7 +41,7 @@ public class DeckController {
     }
 
     // Get decks
-    @GetMapping("/user/{username}")
+    @GetMapping
     public List<Deck> getAllDecks(@AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())
