@@ -19,7 +19,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/users/register").permitAll() // Must come first
+                        .requestMatchers("/api/**").authenticated() // ALL OTHER /api/** require auth
                         .anyRequest().permitAll())
                 .httpBasic(basic -> {
                 });

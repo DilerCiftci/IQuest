@@ -30,14 +30,14 @@ public class CardController {
     }
 
     // Create card
-    @PostMapping("/deck/{deckId}")
+    @PostMapping("/decks/{deckId}")
     public CardDTO createCard(@PathVariable Long deckId, @Valid @RequestBody CreateCardRequest request) {
         Card card = cardService.addCard(request.question(), request.answer(), deckId);
         return new CardDTO(card.getId(), card.getQuestion(), card.getAnswer());
     }
 
     // Get cards
-    @GetMapping("/deck/{deckId}")
+    @GetMapping("/decks/{deckId}")
     public List<CardDTO> getCardsByDeck(@PathVariable Long deckId) {
         return cardService.getCardsByDeck(deckId)
                 .stream()
