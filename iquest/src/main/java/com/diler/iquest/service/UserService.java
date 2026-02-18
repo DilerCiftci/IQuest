@@ -43,4 +43,13 @@ public class UserService {
         }
         return userRepository.findByUsername(username);
     }
+
+    // Get user
+    public User getUser(Long userId) {
+        if (userId == null || userId <= 0) {
+            throw new IllegalArgumentException("User id is required.");
+        }
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+    }
 }
