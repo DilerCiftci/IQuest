@@ -3,8 +3,13 @@ package com.diler.iquest.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diler.iquest.dto.request.CreateCardRequest;
+import com.diler.iquest.dto.response.CardDTO;
 import com.diler.iquest.model.Card;
 import com.diler.iquest.service.CardService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,14 +31,18 @@ public class CardController {
 
     // Create card
     @PostMapping("/deck/{deckId}")
-    public Card createCard(@PathVariable Long deckId, @RequestBody Card card) {
-        return cardService.addCard(card.getQuestion(), card.getAnswer(), deckId);
+    public CardDTO createCard(@PathVariable Long deckId, @Valid @RequestBody CreateCardRequest request) {
+        Card card = cardService.addCard(request.question(), request.answer(), deckId);
+        return new CardDTO(card.getId(), card.getQuestion(), card.getAnswer());
     }
 
     // Get cards
     @GetMapping("/deck/{deckId}")
-    public List<Card> getCardsByDeck(@PathVariable Long deckId) {
-        return cardService.getCardsByDeck(deckId);
+    public List<CardDTO> getCardsByDeck(@PathVariable Long deckId) {
+        return cardService.getCardsByDeck(deckId)
+                .stream()
+                .map(card -> new CardDTO(card.getId(), card.getQuestion(), card.getAnswer()))
+                .toList();
     }
 
     // Delete card

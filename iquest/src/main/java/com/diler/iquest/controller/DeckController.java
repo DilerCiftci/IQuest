@@ -3,10 +3,14 @@ package com.diler.iquest.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diler.iquest.dto.request.CreateDeckRequest;
+import com.diler.iquest.dto.response.DeckDTO;
 import com.diler.iquest.model.Deck;
 import com.diler.iquest.model.User;
 import com.diler.iquest.service.DeckService;
 import com.diler.iquest.service.UserService;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -32,22 +36,27 @@ public class DeckController {
 
     // Create deck
     @PostMapping
-    public Deck createDeck(@RequestBody Deck deck, @AuthenticationPrincipal UserDetails userDetails) {
+    public DeckDTO createDeck(@Valid @RequestBody CreateDeckRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        return deckService.createDeck(deck.getName(), user);
+        Deck deck = deckService.createDeck(request.name(), user);
+        return new DeckDTO(deck.getId(), deck.getName());
     }
 
     // Get decks
     @GetMapping
-    public List<Deck> getAllDecks(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<DeckDTO> getAllDecks(@AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        return deckService.getDecksByUser(user);
+        return deckService.getDecksByUser(user)
+                .stream()
+                .map(deck -> new DeckDTO(deck.getId(), deck.getName()))
+                .toList();
     }
 
     // Delete deck
