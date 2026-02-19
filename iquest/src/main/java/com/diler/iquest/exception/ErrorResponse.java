@@ -1,0 +1,34 @@
+package com.diler.iquest.exception;
+
+import java.time.LocalDateTime;
+
+public class ErrorResponse {
+    private String status;
+    private String message;
+    private LocalDateTime timestamp;
+    private int code;
+
+    public ErrorResponse(String status, String message, LocalDateTime timestamp, int code) {
+        this.status = status;
+        this.message = message;
+        this.timestamp = timestamp;
+        this.code = code;
+    }
+
+    // Getters
+    public String getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public int getCode() {
+        return code;
+    }
+}

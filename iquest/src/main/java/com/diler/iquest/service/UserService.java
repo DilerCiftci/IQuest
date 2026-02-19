@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.diler.iquest.exception.EntityNotFoundException;
 import com.diler.iquest.model.User;
 import com.diler.iquest.repository.UserRepository;
 
@@ -50,6 +51,6 @@ public class UserService {
             throw new IllegalArgumentException("User id is required.");
         }
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
     }
 }

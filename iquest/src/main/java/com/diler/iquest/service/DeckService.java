@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.diler.iquest.exception.EntityNotFoundException;
 import com.diler.iquest.model.Deck;
 import com.diler.iquest.model.User;
 import com.diler.iquest.repository.DeckRepository;
@@ -41,7 +42,10 @@ public class DeckService {
     // Delete deck
     public void deleteDeck(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No decks to delete.");
+            throw new IllegalArgumentException("Deck id is required.");
+        }
+        if (!deckRepository.existsById(id)) {
+            throw new EntityNotFoundException("Deck not found with id: " + id);
         }
         deckRepository.deleteById(id);
     }
