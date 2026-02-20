@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diler.iquest.dto.request.CreateDeckRequest;
+import com.diler.iquest.dto.request.UpdateDeckRequest;
 import com.diler.iquest.dto.response.DeckDTO;
 import com.diler.iquest.model.Deck;
 import com.diler.iquest.model.User;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -57,6 +59,13 @@ public class DeckController {
                 .stream()
                 .map(deck -> new DeckDTO(deck.getId(), deck.getName()))
                 .toList();
+    }
+
+    // Update deck
+    @PutMapping("/{id}")
+    public DeckDTO updateDeck(@PathVariable Long id, @Valid @RequestBody UpdateDeckRequest request) {
+        Deck updated = deckService.updateDeck(id, request.name());
+        return new DeckDTO(updated.getId(), updated.getName());
     }
 
     // Delete deck

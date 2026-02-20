@@ -58,4 +58,24 @@ public class CardService {
         }
         cardRepository.deleteById(id);
     }
+
+    // Update card
+    public Card updateCard(Long id, String question, String answer) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Card id is required.");
+        }
+        if (question == null || question.isBlank()) {
+            throw new IllegalArgumentException("Card needs a question.");
+        }
+        if (answer == null || answer.isBlank()) {
+            throw new IllegalArgumentException("Card needs an answer.");
+        }
+
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Card not found with id: " + id));
+
+        card.setQuestion(question);
+        card.setAnswer(answer);
+        return cardRepository.save(card);
+    }
 }

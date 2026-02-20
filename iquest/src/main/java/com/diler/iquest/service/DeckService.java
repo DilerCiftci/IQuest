@@ -49,4 +49,20 @@ public class DeckService {
         }
         deckRepository.deleteById(id);
     }
+
+    // Update deck
+    public Deck updateDeck(Long id, String name) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Deck id is required.");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Deck name is required.");
+        }
+
+        Deck deck = deckRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Deck not found with id: " + id));
+
+        deck.setName(name);
+        return deckRepository.save(deck);
+    }
 }
