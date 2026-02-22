@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.diler.iquest.model.User;
 import com.diler.iquest.repository.UserRepository;
 
+// Connects Spring Security to our User database
+// Required for authentication to work
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -22,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        // Convert our User to Spring Security's UserDetails format
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())

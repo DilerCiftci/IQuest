@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+// User entity - stores user accounts in database
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,7 +19,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    private String password;
+    private String password; // BCrypt encrypted
     private String role;
 
     public User() {

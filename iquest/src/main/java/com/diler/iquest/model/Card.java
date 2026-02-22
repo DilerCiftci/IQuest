@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+// Card entity - a single flashcard with question and answer
 @Entity
 public class Card {
 
@@ -18,7 +19,7 @@ public class Card {
     private String question;
     private String answer;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Many cards -> One deck
     @JoinColumn(name = "deck_id", nullable = false)
     private Deck deck;
 

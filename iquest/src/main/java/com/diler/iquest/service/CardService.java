@@ -10,6 +10,7 @@ import com.diler.iquest.model.Deck;
 import com.diler.iquest.repository.CardRepository;
 import com.diler.iquest.repository.DeckRepository;
 
+// Service layer for card (flashcard) operations
 @Service
 public class CardService {
 
@@ -21,7 +22,6 @@ public class CardService {
         this.deckRepository = deckRepository;
     }
 
-    // Add card
     public Card addCard(String question, String answer, Long deckId) {
         if (question == null || question.isBlank()) {
             throw new IllegalArgumentException("Card needs a question.");
@@ -40,7 +40,6 @@ public class CardService {
         return cardRepository.save(card);
     }
 
-    // Get cards
     public List<Card> getCardsByDeck(Long deckId) {
         if (deckId == null || deckId <= 0) {
             throw new IllegalArgumentException("Deck id is required to see cards.");
@@ -48,7 +47,6 @@ public class CardService {
         return cardRepository.findByDeckId(deckId);
     }
 
-    // Delete card
     public void deleteCard(Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Card id is required.");
@@ -59,7 +57,6 @@ public class CardService {
         cardRepository.deleteById(id);
     }
 
-    // Update card
     public Card updateCard(Long id, String question, String answer) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Card id is required.");

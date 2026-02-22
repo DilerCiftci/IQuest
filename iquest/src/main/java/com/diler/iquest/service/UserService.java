@@ -9,18 +9,17 @@ import com.diler.iquest.exception.EntityNotFoundException;
 import com.diler.iquest.model.User;
 import com.diler.iquest.repository.UserRepository;
 
+// Service layer for user operations (registration, login, etc.)
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // For password encryption
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    // Create user
     public User createUser(String username, String password, String role) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username is required.");
@@ -32,12 +31,11 @@ public class UserService {
             throw new IllegalArgumentException("Role is required.");
         }
 
-        String hashedPassword = passwordEncoder.encode(password);
+        String hashedPassword = passwordEncoder.encode(password); // Encrypt password
         User user = new User(username, hashedPassword, role);
         return userRepository.save(user);
     }
 
-    // Find user by username
     public Optional<User> findByUsername(String username) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username is required.");
@@ -45,7 +43,6 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    // Get user
     public User getUser(Long userId) {
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("User id is required.");
@@ -54,7 +51,6 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
     }
 
-    // Login user
     public User loginUser(String username, String password) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username is required.");
@@ -66,7 +62,7 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) { // Compare encrypted passwords
             throw new IllegalArgumentException("Invalid password.");
         }
 

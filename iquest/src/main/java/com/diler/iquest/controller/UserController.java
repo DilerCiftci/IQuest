@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+// REST API for user operations: register, login, get user
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -28,14 +29,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Register user
     @PostMapping("/register")
     public UserDTO registerUser(@Valid @RequestBody RegisterRequest request) {
         User user = userService.createUser(request.username(), request.password(), "USER");
         return new UserDTO(user.getId(), user.getUsername());
     }
 
-    // Login user
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         User user = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
@@ -43,7 +42,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    // Get user
     @GetMapping("/{userId}")
     public UserDTO getUser(@PathVariable Long userId) {
         User user = userService.getUser(userId);

@@ -4,7 +4,5 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record CreateDeckRequest(
-        @NotBlank(message = "Deck name is required")
-        @Size(min = 1, max = 100, message = "Deck name must be between 1 and 100 characters")
-        String name
-) {}
+                @NotBlank(message = "Deck name is required") @Size(min = 1, max = 100, message = "Deck name must be between 1 and 100 characters") String name) {
+}

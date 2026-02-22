@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+// REST API for deck operations: create, get all, update, delete
 @RestController
 @RequestMapping("/api/decks")
 public class DeckController {
@@ -36,7 +37,6 @@ public class DeckController {
         this.userService = userService;
     }
 
-    // Create deck
     @PostMapping
     public DeckDTO createDeck(@Valid @RequestBody CreateDeckRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -48,7 +48,6 @@ public class DeckController {
         return new DeckDTO(deck.getId(), deck.getName());
     }
 
-    // Get decks
     @GetMapping
     public List<DeckDTO> getAllDecks(@AuthenticationPrincipal UserDetails userDetails) {
 
@@ -61,14 +60,12 @@ public class DeckController {
                 .toList();
     }
 
-    // Update deck
     @PutMapping("/{id}")
     public DeckDTO updateDeck(@PathVariable Long id, @Valid @RequestBody UpdateDeckRequest request) {
         Deck updated = deckService.updateDeck(id, request.name());
         return new DeckDTO(updated.getId(), updated.getName());
     }
 
-    // Delete deck
     @DeleteMapping("/{id}")
     public void deleteDeck(@PathVariable Long id) {
         deckService.deleteDeck(id);

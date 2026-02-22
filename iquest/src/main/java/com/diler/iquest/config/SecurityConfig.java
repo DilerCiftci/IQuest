@@ -11,6 +11,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+// Configures Spring Security: authentication, CORS, password encryption
 @Configuration
 public class SecurityConfig {
 
@@ -23,11 +24,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Must come first
-                        .requestMatchers("/api/**").authenticated() // ALL OTHER /api/** require auth
+                        // Public endpoints (no login needed)
+                        .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+
+                        // All other /api/** require authentication
+                        .requestMatchers("/api/**").authenticated()
+
                         .anyRequest().permitAll())
+
+                // HTTP Basic Authentication
                 .httpBasic(basic -> {
                 });
 
@@ -37,6 +46,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
+
         config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

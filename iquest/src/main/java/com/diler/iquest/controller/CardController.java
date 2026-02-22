@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+// REST API for flashcard operations: create, get all, update, delete
 @RestController
 @RequestMapping("/api/cards")
 public class CardController {
@@ -30,14 +31,12 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    // Create card
     @PostMapping("/decks/{deckId}")
     public CardDTO createCard(@PathVariable Long deckId, @Valid @RequestBody CreateCardRequest request) {
         Card card = cardService.addCard(request.question(), request.answer(), deckId);
         return new CardDTO(card.getId(), card.getQuestion(), card.getAnswer());
     }
 
-    // Get cards
     @GetMapping("/decks/{deckId}")
     public List<CardDTO> getCardsByDeck(@PathVariable Long deckId) {
         return cardService.getCardsByDeck(deckId)
@@ -46,13 +45,11 @@ public class CardController {
                 .toList();
     }
 
-    // Delete card
     @DeleteMapping("/{id}")
     public void deleteCard(@PathVariable Long id) {
         cardService.deleteCard(id);
     }
 
-    // Update card
     @PutMapping("/{id}")
     public CardDTO updateCard(@PathVariable Long id, @Valid @RequestBody UpdateCardRequest request) {
         Card updated = cardService.updateCard(id, request.question(), request.answer());

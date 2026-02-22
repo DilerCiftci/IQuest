@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+// Deck entity - a collection of flashcards owned by a user
 @Entity
 public class Deck {
 
@@ -17,7 +18,7 @@ public class Deck {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Many decks -> One user
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
