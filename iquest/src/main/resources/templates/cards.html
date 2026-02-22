@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<body>
+    <section layout:fragment="content">
+        <h2>Cards</h2>
+
+        <a th:href="@{'/decks/' + ${deckId} + '/cards/create'}">Add card</a>
+
+        <ul>
+            <li th:each="card : ${cards}">
+                <b th:text="${card.question}"></b> —
+                <span th:text="${card.answer}"></span>
+            </li>
+        </ul>
+    </section>
+</body>
+
+</html>

@@ -29,14 +29,23 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints (no login needed)
+                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll()
 
-                        // All other /api/** require authentication
-                        .requestMatchers("/api/**").authenticated()
+                        // All other endpoints require authentication
+                        .anyRequest().authenticated())
 
-                        .anyRequest().permitAll())
+                // Form-based login
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll())
 
-                // HTTP Basic Authentication
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll())
+
+                // HTTP Basic Authentication for API
                 .httpBasic(basic -> {
                 });
 

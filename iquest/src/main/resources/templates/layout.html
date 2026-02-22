@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <title>IQuest</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="title">IQuest</h1>
+
+        <nav class="navbar">
+            <a th:href="@{/}">HOME</a>
+            <a th:href="@{/decks}">DECKS</a>
+            <a th:href="@{/decks/create}">CREATE DECK</a>
+        </nav>
+    </header>
+
+    <section layout:fragment="content">
+        <p>This content can be dynamically changed!</p>
+    </section>
+
+    <footer>&copy; 2026 IQuest</footer>
+</body>
+
+</html>

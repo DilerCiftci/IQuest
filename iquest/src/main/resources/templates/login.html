@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Login - IQuest</title>
+</head>
+
+<body>
+    <div class="auth-container">
+        <h2>Login to IQuest</h2>
+
+        <div th:if="${param.registered}" class="message success">
+            Registration successful! Please log in.
+        </div>
+
+        <div th:if="${param.error}" class="message error">
+            Invalid username or password.
+        </div>
+
+        <div th:if="${param.logout}" class="message success">
+            You have been logged out.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <div class="auth-link">
+            Don't have an account? <a th:href="@{/register}">Register here</a>
+        </div>
+    </div>
+</body>
+
+</html>
