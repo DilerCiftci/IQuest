@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -15,7 +16,8 @@
         <nav class="navbar">
             <a th:href="@{/}">HOME</a>
             <a th:href="@{/decks}">DECKS</a>
-            <a th:href="@{/decks/create}">CREATE DECK</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}">LOGIN</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a>
         </nav>
     </header>
 
